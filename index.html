@@ -1,51 +1,175 @@
-DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ليالي لايف | Layali Live</title>
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
         body {
-            background: linear-gradient(rgba(11, 15, 25, 0.88), rgba(11, 15, 25, 0.95)), 
-                        url('https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=1000&auto=format&fit=crop') center/cover fixed no-repeat;
+            background: #0b0f19;
             color: #ffffff;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
         }
         header {
-            background: rgba(31, 41, 55, 0.85);
-            backdrop-filter: blur(10px);
-            padding: 20px;
+            background: linear-gradient(135deg, #1f2937, #111827);
+            padding: 18px;
             text-align: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid #374151;
             box-shadow: 0 4px 12px rgba(0,0,0,0.5);
         }
-        header h1 {
-            font-size: 26px;
-            color: #f59e0b;
-            margin-bottom: 5px;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
-        }
-        header p {
-            font-size: 14px;
-            color: #9ca3af;
-        }
-        .container {
-            padding: 20px;
-            max-width: 600px;
-            margin: 0 auto;
-            width: 100%;
-            flex: 1;
-        }
+        header h1 { font-size: 24px; color: #f59e0b; margin-bottom: 4px; }
+        header p { font-size: 13px; color: #9ca3af; }
+        .container { padding: 15px; max-width: 500px; margin: 0 auto; width: 100%; flex: 1; }
         
-        /* صورة الواجهة (شاب وفتاة يسولفون) */
         .hero-banner {
+            position: relative;
             width: 100%;
-            height: 180px;
+            height: 160px;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 15px;
+            border: 1px solid rgba(245, 158, 11, 0.3);
+        }
+        .hero-banner img { width: 100%; height: 100%; object-fit: cover; }
+        .hero-overlay {
+            position: absolute; bottom: 0; left: 0; right: 0;
+            background: linear-gradient(transparent, rgba(11, 15, 25, 0.9));
+            padding: 10px; text-align: center; color: #f59e0b; font-weight: bold; font-size: 13px;
+        }
+
+        .section-title { font-size: 14px; color: #e5e7eb; margin-bottom: 10px; font-weight: bold; }
+        .rooms-grid { display: grid; gap: 8px; margin-bottom: 15px; }
+        .room-card {
+            background: #1f2937; padding: 12px 14px; border-radius: 10px;
+            border: 1px solid #374151; display: flex; justify-content: space-between; align-items: center;
+            cursor: pointer; transition: 0.2s;
+        }
+        .room-card:hover { border-color: #f59e0b; background: #2d3748; }
+        .room-info h3 { font-size: 14px; color: #fff; }
+        .room-info span { font-size: 11px; color: #9ca3af; }
+        .room-badge { background: rgba(245, 158, 11, 0.15); color: #f59e0b; padding: 4px 8px; border-radius: 12px; font-size: 11px; font-weight: bold; }
+
+        .chat-section {
+            background: #1f2937; border-radius: 12px; border: 1px solid #374151;
+            display: flex; flex-direction: column; height: 280px; margin-bottom: 15px; overflow: hidden;
+        }
+        .chat-header { background: #111827; padding: 10px 14px; font-size: 13px; font-weight: bold; color: #f59e0b; border-bottom: 1px solid #374151; }
+        .chat-messages { flex: 1; padding: 10px; overflow-y: auto; display: flex; flex-direction: column; gap: 6px; }
+        .message { background: #374151; padding: 6px 10px; border-radius: 6px; font-size: 12px; max-width: 85%; word-break: break-word; }
+        .message.system { background: rgba(245, 158, 11, 0.15); color: #f59e0b; align-self: center; text-align: center; font-size: 11px; width: 100%; }
+        .chat-input-area { display: flex; padding: 8px; background: #111827; border-top: 1px solid #374151; gap: 6px; }
+        .chat-input-area input {
+            flex: 1; background: #1f2937; border: 1px solid #374151; border-radius: 6px;
+            padding: 8px; color: #fff; outline: none; font-size: 12px;
+        }
+        .chat-input-area button { background: #f59e0b; color: #0b0f19; border: none; border-radius: 6px; padding: 0 14px; font-weight: bold; cursor: pointer; }
+
+        .vip-banner {
+            background: linear-gradient(135deg, #b45309, #d97706);
+            padding: 14px; border-radius: 10px; text-align: center; color: #fff; font-weight: bold; font-size: 13px;
+        }
+        footer { text-align: center; padding: 12px; font-size: 11px; color: #6b7280; border-top: 1px solid #1f2937; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>ليالي لايف 🌙</h1>
+        <p>ملتقى السهرات والدردشة الخليجية المباشرة</p>
+    </header>
+
+    <div class="container">
+        
+        <div class="hero-banner">
+            <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?q=80&w=800&auto=format&fit=crop" alt="ليالي لايف">
+            <div class="hero-overlay">
+                ✨ سوالف وسهرات خليجية حية 24/7
+            </div>
+        </div>
+
+        <div class="section-title">🌐 رومات الخليج المباشرة</div>
+        
+        <div class="rooms-grid">
+            <div class="room-card" onclick="selectRoom('صالة الرياض 🌴')">
+                <div class="room-info"><h3>صالة الرياض 🌴</h3><span>المتواجدون: 1,840</span></div>
+                <div class="room-badge">مباشر 🔥</div>
+            </div>
+            <div class="room-card" onclick="selectRoom('سهرة جدة العروس 🌊')">
+                <div class="room-info"><h3>سهرة جدة العروس 🌊</h3><span>المتواجدون: 1,210</span></div>
+                <div class="room-badge">مباشر 🔥</div>
+            </div>
+            <div class="room-card" onclick="selectRoom('ديوانية الكويت 🇰🇼')">
+                <div class="room-info"><h3>ديوانية الكويت 🇰🇼</h3><span>المتواجدون: 950</span></div>
+                <div class="room-badge">نشط</div>
+            </div>
+            <div class="room-card" onclick="selectRoom('جلسة دبي 🇦🇪')">
+                <div class="room-info"><h3>جلسة دبي 🇦🇪</h3><span>المتواجدون: 1,100</span></div>
+                <div class="room-badge">نشط</div>
+            </div>
+            <div class="room-card" onclick="selectRoom('ملتقى الدوحة 🇶🇦')">
+                <div class="room-info"><h3>ملتقى الدوحة 🇶🇦</h3><span>المتواجدون: 780</span></div>
+                <div class="room-badge">نشط</div>
+            </div>
+            <div class="room-card" onclick="selectRoom('سهرة المنامة 🇧🇭')">
+                <div class="room-info"><h3>سهرة المنامة 🇧🇭</h3><span>المتواجدون: 520</span></div>
+                <div class="room-badge">نشط</div>
+            </div>
+            <div class="room-card" onclick="selectRoom('ديوانية مسقط 🇴🇲')">
+                <div class="room-info"><h3>ديوانية مسقط 🇴🇲</h3><span>المتواجدون: 430</span></div>
+                <div class="room-badge">نشط</div>
+            </div>
+        </div>
+
+        <div class="chat-section">
+            <div class="chat-header" id="currentRoomHeader">💬 الشات العام - صالة الرياض 🌴</div>
+            <div class="chat-messages" id="chatMessages">
+                <div class="message system">أهلاً بك في ليالي لايف! استمتع بالسهرة باحترام وذوق.</div>
+                <div class="message"><b>فهد (الرياض):</b> يا هلا والله بأهل الخليج منورين! ☕</div>
+                <div class="message"><b>ريم (الكويت):</b> مساكم الله بالخير جميعاً ✨</div>
+            </div>
+            <div class="chat-input-area">
+                <input type="text" id="messageInput" placeholder="اكتب رسالتك..." />
+                <button onclick="sendMessage()">إرسال</button>
+            </div>
+        </div>
+
+        <div class="vip-banner" onclick="alert('قريباً: تفعيل باقات VIP الحصرية!')">
+            👑 ترقية VIP - احصل على تميز وحضور خاص الآن
+        </div>
+    </div>
+
+    <footer>
+        جميع الحقوق محفوظة © ليالي لايف 2026
+    </footer>
+
+    <script>
+        function selectRoom(roomName) {
+            document.getElementById('currentRoomHeader').innerText = `💬 الشات العام - ${roomName}`;
+            const messagesContainer = document.getElementById('chatMessages');
+            messagesContainer.innerHTML = `<div class="message system">انتقلت الآن إلى ${roomName}.</div>`;
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const messagesContainer = document.getElementById('chatMessages');
+            if (input.value.trim() === '') return;
+
+            const msgDiv = document.createElement('div');
+            msgDiv.className = 'message';
+            msgDiv.innerHTML = `<b>أنت:</b> ${input.value}`;
+            
+            messagesContainer.appendChild(msgDiv);
+            input.value = '';
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        document.getElementById('messageInput').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') sendMessage();
+        });
+    </script>
+
+</body>
+</html>
