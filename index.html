@@ -11,13 +11,18 @@
             font-family: 'Tajawal', sans-serif;
             background-color: #07090f;
             color: #f3f4f6;
-            padding-bottom: 90px; /* مساحة للشريط السفلي العائم */
+            padding-bottom: 90px;
         }
         .glass-nav {
-            background: rgba(15, 23, 42, 0.85);
+            background: rgba(15, 23, 42, 0.9);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .glass-header {
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
         }
         .gold-gradient {
             background: linear-gradient(135deg, #fbbf24 0%, #d97706 50%, #b45309 100%);
@@ -27,9 +32,8 @@
             background: linear-gradient(#0f172a, #0f172a) padding-box, linear-gradient(135deg, #fbbf24, #d97706) border-box;
         }
         .glow-gold {
-            box-shadow: 0 0 30px rgba(245, 158, 11, 0.2);
+            box-shadow: 0 0 25px rgba(245, 158, 11, 0.2);
         }
-        /* إخفاء شريط التمرير */
         ::-webkit-scrollbar { width: 4px; height: 4px; }
         ::-webkit-scrollbar-track { background: #07090f; }
         ::-webkit-scrollbar-thumb { background: #374151; border-radius: 4px; }
@@ -37,100 +41,164 @@
 </head>
 <body class="min-h-screen flex flex-col">
 
-    <!-- الهيدر الفخم -->
-    <header class="glass-nav border-b border-gray-800/80 p-4 sticky top-0 z-50 flex justify-between items-center px-6">
+    <!-- نافذة تسجيل الدخول (تظهر إذا ما كان مسجل) -->
+    <div id="auth-modal" class="fixed inset-0 z-50 bg-[#07090f]/95 backdrop-blur-xl flex items-center justify-center p-4">
+        <div class="bg-gray-900 border border-gray-800 p-6 rounded-3xl w-full max-w-sm flex flex-col gap-4 glow-gold">
+            <div class="text-center">
+                <h2 class="text-xl font-black text-amber-400">✨ أهلاً بك في ليالي لايف</h2>
+                <p class="text-xs text-gray-400 mt-1">سجل اسمك للانضمام إلى السهرات الخليجية الحية</p>
+            </div>
+            <form onsubmit="handleLogin(event)" class="flex flex-col gap-3">
+                <input type="text" id="login-username" placeholder="اكتب اسم المستخدم أو اللقب..." class="bg-gray-950 border border-gray-700 rounded-2xl p-3 text-sm text-amber-400 font-bold focus:outline-none focus:border-amber-500 text-center" required>
+                <button type="submit" class="gold-gradient text-gray-950 font-black py-3 rounded-2xl text-sm shadow-xl hover:scale-[1.02] transition">دخول الديوانية</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- الهيدر العلوي -->
+    <header class="glass-header p-4 sticky top-0 z-40 flex justify-between items-center px-6">
         <div class="flex items-center gap-2">
             <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping"></span>
-            <h1 class="text-lg font-black tracking-wider text-amber-400">ليالي لايف <span class="text-[10px] bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded-full border border-amber-500/30">VIP</span></h1>
+            <h1 class="text-base font-black tracking-wider text-amber-400">ليالي لايف <span class="text-[9px] bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded-full border border-amber-500/30">VIP</span></h1>
         </div>
-        <button onclick="openSettings()" class="w-9 h-9 rounded-full bg-gray-800/80 border border-gray-700 flex items-center justify-center text-amber-400 shadow-inner hover:scale-105 transition">⚙️</button>
+        <div class="flex items-center gap-3">
+            <span id="header-username" class="text-xs font-bold text-gray-300"></span>
+            <button onclick="logout()" class="text-xs bg-red-500/20 text-red-400 px-2.5 py-1 rounded-xl border border-red-500/30">خروج</button>
+        </div>
     </header>
 
-    <!-- المحتوى الرئيسي المتغير حسب التبويب -->
+    <!-- المحتوى الرئيسي -->
     <main class="flex-1 max-w-md w-full mx-auto p-4 flex flex-col gap-5">
 
-        <!-- تبويب الرئيسية (القصص والرومات) -->
+        <!-- 1. تبويب الرئيسية (الرومات والقصص) -->
         <div id="view-home" class="flex flex-col gap-5">
-            
-            <!-- شريط القصص (Stories) الخليجية الفخمة -->
+            <!-- القصص -->
             <div class="flex gap-3 overflow-x-auto pb-2 pt-1 no-scrollbar">
-                <div class="flex flex-col items-center gap-1.5 flex-shrink-0 cursor-pointer group">
-                    <div class="w-16 h-16 rounded-full gold-border p-0.5 flex items-center justify-center relative glow-gold">
+                <div class="flex flex-col items-center gap-1.5 flex-shrink-0 cursor-pointer">
+                    <div class="w-16 h-16 rounded-full gold-border p-0.5 relative glow-gold">
                         <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80" class="w-full h-full object-cover rounded-full">
-                        <span class="absolute bottom-0 right-0 w-5 h-5 bg-amber-500 text-gray-950 rounded-full text-xs font-black flex items-center justify-center border-2 border-[#07090f]">+</span>
+                        <span class="absolute bottom-0 right-0 w-5 h-5 bg-amber-500 text-gray-950 rounded-full text-xs font-black flex items-center justify-center">+</span>
                     </div>
                     <span class="text-[11px] text-gray-300 font-medium">قصتك</span>
                 </div>
-                <!-- قصة مستخدم -->
-                <div class="flex flex-col items-center gap-1.5 flex-shrink-0 cursor-pointer">
-                    <div class="w-16 h-16 rounded-full gold-border p-0.5">
-                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80" class="w-full h-full object-cover rounded-full">
-                    </div>
-                    <span class="text-[11px] text-gray-300 font-medium">صقر الرياض</span>
+                <div class="flex flex-col items-center gap-1.5 flex-shrink-0">
+                    <div class="w-16 h-16 rounded-full gold-border p-0.5"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80" class="w-full h-full object-cover rounded-full"></div>
+                    <span class="text-[11px] text-gray-300">صقر الرياض</span>
                 </div>
-                <div class="flex flex-col items-center gap-1.5 flex-shrink-0 cursor-pointer">
-                    <div class="w-16 h-16 rounded-full gold-border p-0.5">
-                        <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80" class="w-full h-full object-cover rounded-full">
-                    </div>
-                    <span class="text-[11px] text-gray-300 font-medium">سلطان دبي</span>
-                </div>
-                <div class="flex flex-col items-center gap-1.5 flex-shrink-0 cursor-pointer">
-                    <div class="w-16 h-16 rounded-full gold-border p-0.5">
-                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=200&q=80" class="w-full h-full object-cover rounded-full">
-                    </div>
-                    <span class="text-[11px] text-gray-300 font-medium">ريم الكويت</span>
+                <div class="flex flex-col items-center gap-1.5 flex-shrink-0">
+                    <div class="w-16 h-16 rounded-full gold-border p-0.5"><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80" class="w-full h-full object-cover rounded-full"></div>
+                    <span class="text-[11px] text-gray-300">سلطان دبي</span>
                 </div>
             </div>
 
-            <!-- البانر الترويجي الفاخر -->
-            <div class="relative rounded-3xl overflow-hidden glow-gold border border-amber-500/40 p-5 bg-gradient-to-r from-amber-950/40 via-gray-900 to-gray-900">
-                <div class="relative z-10 flex flex-col gap-2">
-                    <span class="bg-amber-500 text-gray-950 font-black text-[10px] px-2.5 py-0.5 rounded-full w-max">✨ سهرات VIP حية</span>
-                    <h2 class="text-lg font-black text-white">جلسات خليجية تجمبع الأجواد</h2>
-                    <p class="text-xs text-gray-400">اختر صالتك المفضل وابدأ السوالف مع ضيوف السهرة الآن.</p>
-                </div>
-            </div>
-
-            <!-- قائمة الرومات الفخمة -->
+            <!-- قائمة الرومات -->
             <div class="grid grid-cols-2 gap-3">
-                <button onclick="switchTab('chat'); changeRoom('الرياض')" class="bg-gradient-to-br from-gray-900 to-[#111827] border border-amber-500/30 hover:border-amber-500 p-4 rounded-2xl text-right transition flex flex-col gap-2 group shadow-lg">
+                <button onclick="switchTab('chat'); changeRoom('الرياض')" class="bg-gradient-to-br from-gray-900 to-[#111827] border border-amber-500/40 p-4 rounded-2xl text-right transition flex flex-col gap-2 shadow-lg hover:border-amber-500">
                     <span class="text-2xl">🌴</span>
-                    <span class="font-bold text-amber-400 text-sm group-hover:translate-x-1 transition">صالة الرياض</span>
+                    <span class="font-bold text-amber-400 text-sm">صالة الرياض</span>
                     <span class="text-[10px] text-emerald-400 font-medium">1,840 متواجد</span>
                 </button>
-                <button onclick="switchTab('chat'); changeRoom('جدة')" class="bg-gradient-to-br from-gray-900 to-[#111827] border border-gray-800 hover:border-amber-500/50 p-4 rounded-2xl text-right transition flex flex-col gap-2 group shadow-lg">
+                <button onclick="switchTab('chat'); changeRoom('جدة')" class="bg-gradient-to-br from-gray-900 to-[#111827] border border-gray-800 p-4 rounded-2xl text-right transition flex flex-col gap-2 shadow-lg hover:border-amber-500/50">
                     <span class="text-2xl">🌊</span>
-                    <span class="font-bold text-gray-200 text-sm group-hover:translate-x-1 transition">سهرة جدة</span>
+                    <span class="font-bold text-gray-200 text-sm">سهرة جدة</span>
                     <span class="text-[10px] text-emerald-400 font-medium">1,210 متواجد</span>
                 </button>
-                <button onclick="switchTab('chat'); changeRoom('الكويت')" class="bg-gradient-to-br from-gray-900 to-[#111827] border border-gray-800 hover:border-amber-500/50 p-4 rounded-2xl text-right transition flex flex-col gap-2 group shadow-lg">
+                <button onclick="switchTab('chat'); changeRoom('الكويت')" class="bg-gradient-to-br from-gray-900 to-[#111827] border border-gray-800 p-4 rounded-2xl text-right transition flex flex-col gap-2 shadow-lg hover:border-amber-500/50">
                     <span class="text-2xl">🇰🇼</span>
-                    <span class="font-bold text-gray-200 text-sm group-hover:translate-x-1 transition">ديوانية الكويت</span>
+                    <span class="font-bold text-gray-200 text-sm">ديوانية الكويت</span>
                     <span class="text-[10px] text-emerald-400 font-medium">950 متواجد</span>
                 </button>
-                <button onclick="switchTab('chat'); changeRoom('دبي')" class="bg-gradient-to-br from-gray-900 to-[#111827] border border-gray-800 hover:border-amber-500/50 p-4 rounded-2xl text-right transition flex flex-col gap-2 group shadow-lg">
+                <button onclick="switchTab('chat'); changeRoom('دبي')" class="bg-gradient-to-br from-gray-900 to-[#111827] border border-gray-800 p-4 rounded-2xl text-right transition flex flex-col gap-2 shadow-lg hover:border-amber-500/50">
                     <span class="text-2xl">🇦🇪</span>
-                    <span class="font-bold text-gray-200 text-sm group-hover:translate-x-1 transition">جلسة دبي</span>
+                    <span class="font-bold text-gray-200 text-sm">جلسة دبي</span>
                     <span class="text-[10px] text-emerald-400 font-medium">1,100 متواجد</span>
                 </button>
             </div>
         </div>
 
-        <!-- تبويب الشات الحي (مخفي افتراضياً يظهر عند اختيار روم) -->
-        <div id="view-chat" class="hidden flex-col h-[calc(100vh-200px)]">
+        <!-- 2. تبويب استعراض الأعضاء (Following / Explore مثل التطبيق اللي أرسلته) -->
+        <div id="view-explore" class="hidden flex-col gap-3">
+            <h2 class="text-xs font-bold text-gray-400 px-1">الأعضاء النشطون الآن:</h2>
+            <div class="flex flex-col gap-2.5">
+                <div class="bg-gray-900 border border-gray-800/80 p-3 rounded-2xl flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 rounded-full gold-border p-0.5 relative">
+                            <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=200&q=80" class="w-full h-full object-cover rounded-full">
+                            <span class="absolute bottom-0 right-0 w-3 h-3 bg-emerald-500 rounded-full border-2 border-gray-900"></span>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-sm text-white">راكان العتيبي</h4>
+                            <p class="text-[11px] text-gray-400">مرحباً بالجميع، منورين السهرة 🙂</p>
+                        </div>
+                    </div>
+                    <span class="bg-amber-500/20 text-amber-400 text-[10px] font-bold px-2.5 py-1 rounded-xl border border-amber-500/30">VIP 👑</span>
+                </div>
+                <div class="bg-gray-900 border border-gray-800/80 p-3 rounded-2xl flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 rounded-full border border-gray-700 p-0.5 relative">
+                            <img src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?auto=format&fit=crop&w=200&q=80" class="w-full h-full object-cover rounded-full">
+                            <span class="absolute bottom-0 right-0 w-3 h-3 bg-emerald-500 rounded-full border-2 border-gray-900"></span>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-sm text-white">فهد الشمري</h4>
+                            <p class="text-[11px] text-gray-400">سهرة دبي غير الليلة 🔥</p>
+                        </div>
+                    </div>
+                    <button onclick="switchTab('chat'); changeRoom('دبي')" class="text-xs bg-gray-800 text-amber-400 px-3 py-1.5 rounded-xl font-bold">محادثة</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. تبويب الشات الحي -->
+        <div id="view-chat" class="hidden flex-col h-[calc(100vh-190px)]">
             <div class="bg-gray-900/90 border border-gray-800 rounded-2xl flex flex-col h-full shadow-2xl overflow-hidden">
                 <div class="bg-gray-950/60 p-3 border-b border-gray-800 flex justify-between items-center">
                     <div class="flex items-center gap-2">
-                        <button onclick="switchTab('home')" class="text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 px-2.5 py-1 rounded-lg">← الرومات</button>
+                        <button onclick="switchTab('home')" class="text-xs bg-gray-800 text-gray-300 px-2.5 py-1 rounded-lg">← الرومات</button>
                         <h3 id="current-room-title" class="font-bold text-amber-400 text-xs">🌴 صالة الرياض</h3>
                     </div>
                     <span class="text-[10px] bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded-full">● مباشر</span>
                 </div>
-
-                <!-- الرسائل -->
-                <div id="chat-messages" class="flex-1 overflow-y-auto p-3 flex flex-col gap-3 text-xs">
-                    <div class="text-center text-gray-500 my-auto">جاري تحميل السوالف الحية...</div>
+                <div id="chat-messages" class="flex-1 overflow-y-auto p-3 flex flex-col gap-2.5 text-xs">
+                    <div class="text-center text-gray-500 my-auto">جاري تحميل السوالف...</div>
                 </div>
+                <form id="chat-form" onsubmit="sendMessage(event)" class="p-3 bg-gray-950/80 border-t border-gray-800 flex gap-2">
+                    <input type="text" id="message-input" placeholder="اكتب رسالتك في الديوانية..." class="bg-gray-900 border border-gray-700 rounded-xl px-3 py-2 text-xs flex-1 text-gray-200 focus:outline-none focus:border-amber-500" required>
+                    <button type="submit" class="gold-gradient text-gray-950 font-black px-4 py-2 rounded-xl text-xs shadow-lg">إرسال</button>
+                </form>
+            </div>
+        </div>
 
-                <!-- إدخال الرسالة -->
-                <form id="chat-form" onsubmit="sendMessage(event)" class="p-3 bg-gray-950
+        <!-- 4. تبويب الاشتراكات VIP والترقية (مثل خيار Shuffle و Super Messages) -->
+        <div id="view-vip" class="hidden flex-col gap-4">
+            <div class="bg-gradient-to-br from-amber-950/40 via-gray-900 to-gray-900 border border-amber-500/40 p-5 rounded-3xl text-center flex flex-col gap-3 glow-gold">
+                <span class="text-3xl">🚀</span>
+                <h2 class="text-base font-black text-amber-400">احصل على إصدار VIP الملكي</h2>
+                <p class="text-xs text-gray-300 leading-relaxed">تصدر قائمة السهرات، احصل على إطارات ذهبية مميزة، ورسائل خارقة (Super Messages) تظهر للجميع بلون مختلف.</p>
+                <button onclick="alert('تم تفعيل باقة VIP الملكية بنجاح!')" class="gold-gradient text-gray-950 font-black py-3 rounded-2xl text-xs shadow-xl mt-2">ترقية الحساب الآن</button>
+            </div>
+        </div>
+
+        <!-- 5. تبويب الملف الشخصي -->
+        <div id="view-profile" class="hidden flex-col items-center gap-4 pt-2">
+            <div class="relative">
+                <div class="w-24 h-24 rounded-full gold-border p-1 glow-gold">
+                    <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=300&q=80" class="w-full h-full object-cover rounded-full">
+                </div>
+                <span class="absolute bottom-0 right-1 bg-amber-500 text-gray-950 text-[9px] font-black px-2 py-0.5 rounded-full">VIP 👑</span>
+            </div>
+            <div class="text-center">
+                <h2 id="profile-name" class="text-base font-black text-white">الضيف</h2>
+                <p class="text-xs text-amber-400 mt-0.5">عضو مشارك في ليالي لايف 🌴</p>
+            </div>
+            <div class="grid grid-cols-3 gap-3 w-full bg-gray-900/80 border border-gray-800 p-3 rounded-2xl text-center">
+                <div><span class="block font-black text-amber-400 text-sm">12</span><span class="text-[10px] text-gray-400">الإطارات</span></div>
+                <div class="border-x border-gray-800"><span class="block font-black text-amber-400 text-sm">450</span><span class="text-[10px] text-gray-400">الإعجابات</span></div>
+                <div><span class="block font-black text-amber-400 text-sm">180</span><span class="text-[10px] text-gray-400">المتابعون</span></div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- الشريط السفلي العائم (Floating Bottom Nav متطابق تماماً للصورة) -->
+    <nav class="glass-nav fixed
