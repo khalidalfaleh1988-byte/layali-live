@@ -6,47 +6,104 @@
     <title>ليالي لايف - المجالس الخليجية</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-slate-950 text-white min-h-screen flex flex-col justify-between p-6">
+<body class="bg-slate-950 text-white min-h-screen flex flex-col justify-between">
 
-    <!-- الهيدر -->
-    <header class="text-center py-6">
-        <h1 class="text-3xl font-bold tracking-wider text-amber-400">✨ ليالي لايف</h1>
-        <p class="text-xs text-slate-400 mt-1">انضم إلى السهرات والديوانيات الخليجية الحية</p>
-    </header>
+    <!-- 1. واجهة تسجيل الدخول -->
+    <div id="loginSection" class="flex-1 flex flex-col justify-between p-6">
+        <header class="text-center py-6">
+            <h1 class="text-3xl font-bold tracking-wider text-amber-400">✨ ليالي لايف</h1>
+            <p class="text-xs text-slate-400 mt-1">انضم إلى السهرات والديوانيات الخليجية الحية</p>
+        </header>
 
-    <!-- صندوق تسجيل الدخول -->
-    <main class="max-w-md w-mx mx-auto bg-slate-900 border border-slate-800 p-6 rounded-2xl shadow-2xl">
-        <h2 class="text-lg font-semibold mb-2 text-center">أهلاً بك في الديوانية</h2>
-        <p class="text-xs text-slate-400 mb-6 text-center">اختر لقبك وادخل فوراً للتفاعل مع الأعضاء</p>
-        
-        <form id="loginForm" class="space-y-4">
-            <div>
-                <label class="block text-xs text-slate-400 mb-1">اسم المستخدم / اللقب</label>
-                <input type="text" id="usernameInput" required placeholder="مثال: فهد القحطاني" 
-                    class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-amber-500 text-sm">
+        <main class="max-w-md w-full mx-auto bg-slate-900 border border-slate-800 p-6 rounded-2xl shadow-2xl">
+            <h2 class="text-lg font-semibold mb-2 text-center">أهلاً بك في الديوانية</h2>
+            <p class="text-xs text-slate-400 mb-6 text-center">اختر لقبك وادخل فوراً للتفاعل مع الأعضاء</p>
+            
+            <form id="loginForm" class="space-y-4">
+                <div>
+                    <label class="block text-xs text-slate-400 mb-1">اسم المستخدم / اللقب</label>
+                    <input type="text" id="usernameInput" required placeholder="مثال: فهد القحطاني" 
+                        class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-amber-500 text-sm">
+                </div>
+                <button type="submit" 
+                    class="w-full bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 hover:to-amber-400 text-slate-950 font-bold py-3 rounded-xl transition shadow-lg shadow-amber-600/20 text-sm">
+                    دخول الديوانية الآن 🚀
+                </button>
+            </form>
+        </main>
+
+        <footer class="text-center text-xs text-slate-600 py-4">
+            جميع الحقوق محفوظة - ليالي لايف © 2026
+        </footer>
+    </div>
+
+    <!-- 2. واجهة الغرف والدردشة (تظهر بعد تسجيل الدخول تلقائياً) -->
+    <div id="appSection" class="hidden flex-1 flex flex-col h-screen">
+        <!-- شريط علوي -->
+        <header class="bg-slate-900 border-b border-slate-800 p-4 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <span class="text-amber-400 font-bold text-lg">✨ ليالي لايف</span>
             </div>
-            <button type="submit" 
-                class="w-full bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 hover:to-amber-400 text-slate-950 font-bold py-3 rounded-xl transition shadow-lg shadow-amber-600/20 text-sm">
-                دخول الديوانية الآن 🚀
-            </button>
-        </form>
-    </main>
+            <div class="flex items-center gap-3">
+                <span id="displayUsername" class="text-xs bg-amber-500/10 text-amber-400 border border-amber-500/30 px-3 py-1 rounded-full font-medium"></span>
+                <button onclick="logout()" class="text-xs text-slate-400 hover:text-red-400 transition">خروج</button>
+            </div>
+        </header>
 
-    <!-- الفوتر -->
-    <footer class="text-center text-xs text-slate-600 py-4">
-        جميع الحقوق محفوظة - ليالي لايف © 2026
-    </footer>
+        <!-- المحتوى الرئيسي للغرف -->
+        <main class="flex-1 p-4 max-w-2xl w-full mx-auto overflow-y-auto space-y-4">
+            <h2 class="text-sm font-semibold text-slate-400">الديوانيات النشطة</h2>
+            
+            <!-- بطاقة غرفة -->
+            <div onclick="openRoom('ديوانية الشعر والقصيد')" class="bg-slate-900 border border-slate-800 hover:border-amber-500/50 p-4 rounded-2xl cursor-pointer transition shadow-md flex justify-between items-center">
+                <div>
+                    <h3 class="font-bold text-amber-400 text-sm">شطر و قصيد 🎙️</h3>
+                    <p class="text-xs text-slate-400 mt-1">سوالف أهل الشعر ومجالس القصايد الحية</p>
+                </div>
+                <span class="text-xs bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-2.5 py-1 rounded-lg">متواجدون</span>
+            </div>
 
+            <div onclick="openRoom('ديوانية السوالف والعلوم')" class="bg-slate-900 border border-slate-800 hover:border-amber-500/50 p-4 rounded-2xl cursor-pointer transition shadow-md flex justify-between items-center">
+                <div>
+                    <h3 class="font-bold text-amber-400 text-sm">سهرة أهل الخليج ☕</h3>
+                    <p class="text-xs text-slate-400 mt-1">العلوم الطيبة وسوالف السهارى</p>
+                </div>
+                <span class="text-xs bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-2.5 py-1 rounded-lg">متواجدون</span>
+            </div>
+        </main>
+    </div>
+
+    <!-- جافاسكريبت للتحكم بالصفحة بدون أخطاء -->
     <script>
+        const savedUser = localStorage.getItem('layali_user');
+        
+        if (savedUser) {
+            showApp(savedUser);
+        }
+
         document.getElementById('loginForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const username = document.getElementById('usernameInput').value.trim();
             if (username) {
-                // حفظ الاسم محلياً والتوجه للديوانية
                 localStorage.setItem('layali_user', username);
-                window.location.href = 'rooms.html'; // أو صفحة الغرف الخاصة بك
+                showApp(username);
             }
         });
+
+        function showApp(username) {
+            document.getElementById('loginSection').classList.add('hidden');
+            document.getElementById('appSection').classList.remove('hidden');
+            document.getElementById('displayUsername').innerText = username;
+        }
+
+        function logout() {
+            localStorage.removeItem('layali_user');
+            location.reload();
+        }
+
+        function openRoom(roomName) {
+            alert('أهلاً بك في ' + roomName + ' - جاري ربط الشات المباشر!');
+        }
     </script>
 </body>
 </html>
