@@ -1,140 +1,52 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <link rel="manifest" href="manifest.json">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ليالي لايف - Luxury Gulf Majlis</title>
+    <title>ليالي لايف - المجالس الخليجية</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Tajawal', sans-serif;
-            background-color: #07090f;
-            color: #f3f4f6;
-            padding-bottom: 90px;
-        }
-        .glass-nav {
-            background: rgba(15, 23, 42, 0.95);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border-top: 1px solid rgba(255, 255, 255, 0.08);
-        }
-        .glass-header {
-            background: rgba(15, 23, 42, 0.85);
-            backdrop-filter: blur(16px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-        }
-        .gold-gradient {
-            background: linear-gradient(135deg, #fbbf24 0%, #d97706 50%, #b45309 100%);
-        }
-        .gold-border {
-            border: 2px solid transparent;
-            background: linear-gradient(#0f172a, #0f172a) padding-box, linear-gradient(135deg, #fbbf24, #d97706) border-box;
-        }
-        .glow-gold {
-            box-shadow: 0 0 25px rgba(245, 158, 11, 0.2);
-        }
-        ::-webkit-scrollbar { width: 4px; height: 4px; }
-        ::-webkit-scrollbar-track { background: #07090f; }
-        ::-webkit-scrollbar-thumb { background: #374151; border-radius: 4px; }
-    </style>
 </head>
-<body class="min-h-screen flex flex-col">
+<body class="bg-slate-950 text-white min-h-screen flex flex-col justify-between p-6">
 
-    <!-- نافذة تسجيل الدخول -->
-    <div id="auth-modal" class="fixed inset-0 z-50 bg-[#07090f]/95 backdrop-blur-xl flex items-center justify-center p-4">
-        <div class="bg-gray-900 border border-gray-800 p-6 rounded-3xl w-full max-w-sm flex flex-col gap-4 glow-gold">
-            <div class="text-center">
-                <h2 class="text-xl font-black text-amber-400">✨ أهلاً بك في ليالي لايف</h2>
-                <p class="text-xs text-gray-400 mt-1">سجل اسمك للانضمام إلى السهرات الخليجية الحية</p>
-            </div>
-            <div class="flex flex-col gap-3">
-                <input type="text" id="login-username" placeholder="اكتب اسم المستخدم أو اللقب..." class="bg-gray-950 border border-gray-700 rounded-2xl p-3 text-sm text-amber-400 font-bold focus:outline-none focus:border-amber-500 text-center">
-                <button type="button" id="btn-login" class="gold-gradient text-gray-950 font-black py-3 rounded-2xl text-sm shadow-xl hover:scale-[1.02] transition">دخول الديوانية</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- الهيدر العلوي -->
-    <header class="glass-header p-4 sticky top-0 z-40 flex justify-between items-center px-6">
-        <div class="flex items-center gap-2">
-            <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping"></span>
-            <h1 class="text-base font-black tracking-wider text-amber-400">ليالي لايف <span class="text-[9px] bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded-full border border-amber-500/30">VIP</span></h1>
-        </div>
-        <div class="flex items-center gap-3">
-            <span id="header-username" class="text-xs font-bold text-gray-300"></span>
-            <button id="btn-logout" class="text-xs bg-red-500/20 text-red-400 px-2.5 py-1 rounded-xl border border-red-500/30">خروج</button>
-        </div>
+    <!-- الهيدر -->
+    <header class="text-center py-6">
+        <h1 class="text-3xl font-bold tracking-wider text-amber-400">✨ ليالي لايف</h1>
+        <p class="text-xs text-slate-400 mt-1">انضم إلى السهرات والديوانيات الخليجية الحية</p>
     </header>
 
-    <!-- المحتوى الرئيسي -->
-    <main class="flex-1 max-w-md w-full mx-auto p-4 flex flex-col gap-5">
-
-        <!-- 1. الرئيسية -->
-        <div id="view-home" class="flex flex-col gap-5">
-            <!-- القصص -->
-            <div class="flex gap-3 overflow-x-auto pb-2 pt-1 no-scrollbar">
-                <div class="flex flex-col items-center gap-1.5 flex-shrink-0 cursor-pointer">
-                    <div class="w-16 h-16 rounded-full gold-border p-0.5 relative glow-gold">
-                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80" class="w-full h-full object-cover rounded-full">
-                        <span class="absolute bottom-0 right-0 w-5 h-5 bg-amber-500 text-gray-950 rounded-full text-xs font-black flex items-center justify-center">+</span>
-                    </div>
-                    <span class="text-[11px] text-gray-300 font-medium">قصتك</span>
-                </div>
-                <div class="flex flex-col items-center gap-1.5 flex-shrink-0">
-                    <div class="w-16 h-16 rounded-full gold-border p-0.5"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80" class="w-full h-full object-cover rounded-full"></div>
-                    <span class="text-[11px] text-gray-300">صقر الرياض</span>
-                </div>
-                <div class="flex flex-col items-center gap-1.5 flex-shrink-0">
-                    <div class="w-16 h-16 rounded-full gold-border p-0.5"><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80" class="w-full h-full object-cover rounded-full"></div>
-                    <span class="text-[11px] text-gray-300">سلطان دبي</span>
-                </div>
+    <!-- صندوق تسجيل الدخول -->
+    <main class="max-w-md w-mx mx-auto bg-slate-900 border border-slate-800 p-6 rounded-2xl shadow-2xl">
+        <h2 class="text-lg font-semibold mb-2 text-center">أهلاً بك في الديوانية</h2>
+        <p class="text-xs text-slate-400 mb-6 text-center">اختر لقبك وادخل فوراً للتفاعل مع الأعضاء</p>
+        
+        <form id="loginForm" class="space-y-4">
+            <div>
+                <label class="block text-xs text-slate-400 mb-1">اسم المستخدم / اللقب</label>
+                <input type="text" id="usernameInput" required placeholder="مثال: فهد القحطاني" 
+                    class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-amber-500 text-sm">
             </div>
+            <button type="submit" 
+                class="w-full bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 hover:to-amber-400 text-slate-950 font-bold py-3 rounded-xl transition shadow-lg shadow-amber-600/20 text-sm">
+                دخول الديوانية الآن 🚀
+            </button>
+        </form>
+    </main>
 
-            <!-- قائمة الرومات -->
-            <div class="grid grid-cols-2 gap-3">
-                <button data-room="الرياض" class="btn-room bg-gradient-to-br from-gray-900 to-[#111827] border border-amber-500/40 p-4 rounded-2xl text-right transition flex flex-col gap-2 shadow-lg hover:border-amber-500">
-                    <span class="text-2xl">🌴</span>
-                    <span class="font-bold text-amber-400 text-sm">صالة الرياض</span>
-                    <span class="text-[10px] text-emerald-400 font-medium">1,840 متواجد</span>
-                </button>
-                <button data-room="جدة" class="btn-room bg-gradient-to-br from-gray-900 to-[#111827] border border-gray-800 p-4 rounded-2xl text-right transition flex flex-col gap-2 shadow-lg hover:border-amber-500/50">
-                    <span class="text-2xl">🌊</span>
-                    <span class="font-bold text-gray-200 text-sm">سهرة جدة</span>
-                    <span class="text-[10px] text-emerald-400 font-medium">1,210 متواجد</span>
-                </button>
-                <button data-room="الكويت" class="btn-room bg-gradient-to-br from-gray-900 to-[#111827] border border-gray-800 p-4 rounded-2xl text-right transition flex flex-col gap-2 shadow-lg hover:border-amber-500/50">
-                    <span class="text-2xl">🇰🇼</span>
-                    <span class="font-bold text-gray-200 text-sm">ديوانية الكويت</span>
-                    <span class="text-[10px] text-emerald-400 font-medium">950 متواجد</span>
-                </button>
-                <button data-room="دبي" class="btn-room bg-gradient-to-br from-gray-900 to-[#111827] border border-gray-800 p-4 rounded-2xl text-right transition flex flex-col gap-2 shadow-lg hover:border-amber-500/50">
-                    <span class="text-2xl">🇦🇪</span>
-                    <span class="font-bold text-gray-200 text-sm">جلسة دبي</span>
-                    <span class="text-[10px] text-emerald-400 font-medium">1,100 متواجد</span>
-                </button>
-            </div>
-        </div>
+    <!-- الفوتر -->
+    <footer class="text-center text-xs text-slate-600 py-4">
+        جميع الحقوق محفوظة - ليالي لايف © 2026
+    </footer>
 
-        <!-- 2. الأعضاء -->
-        <div id="view-explore" class="hidden flex-col gap-3">
-            <h2 class="text-xs font-bold text-gray-400 px-1">الأعضاء النشطون الآن:</h2>
-            <div class="flex flex-col gap-2.5">
-                <div class="bg-gray-900 border border-gray-800/80 p-3 rounded-2xl flex items-center justify-between">
-                    <div class="flex items-center gap-3">
-                        <div class="w-12 h-12 rounded-full gold-border p-0.5 relative">
-                            <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=200&q=80" class="w-full h-full object-cover rounded-full">
-                            <span class="absolute bottom-0 right-0 w-3 h-3 bg-emerald-500 rounded-full border-2 border-gray-900"></span>
-                        </div>
-                        <div>
-                            <h4 class="font-bold text-sm text-white">راكان العتيبي</h4>
-                            <p class="text-[11px] text-gray-400">مرحباً بالجميع، منورين السهرة 🙂</p>
-                        </div>
-                    </div>
-                    <span class="bg-amber-500/20 text-amber-400 text-[10px] font-bold px-2.5 py-1 rounded-xl border border-amber-500/30">VIP 👑</span>
-                </div>
-                <div class="bg-gray-900 border border-gray-800/80 p-3 rounded-2xl flex items-center justify-between">
-                    <div class="flex items-center gap-3">
-                        <div class="w-12 h-12 rounded-full border border-gray-700 p-0.5 relative">
-                            <img
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const username = document.getElementById('usernameInput').value.trim();
+            if (username) {
+                // حفظ الاسم محلياً والتوجه للديوانية
+                localStorage.setItem('layali_user', username);
+                window.location.href = 'rooms.html'; // أو صفحة الغرف الخاصة بك
+            }
+        });
+    </script>
+</body>
+</html>
