@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ليالي لايف - Layali Live</title>
+    <style>
+        :root {
+            --bg-dark: #0B0813;
+            --bg-card: #151026;
+            --purple-neon: #A855F7;
+            --purple-glow: rgba(168, 85, 247, 0.4);
+            --pink-accent: #EC4899;
+            --text-main: #FFFFFF;
+            --text-muted: #9CA3AF;
+        }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .app-container {
+            width: 100%;
+            max-width: 430px;
+            height: 100vh;
+            max-height: 932px;
+            background: linear-gradient(180deg, #120B22 0%, #0B0813 100%);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 40px rgba(168, 85, 247, 0.15);
+        }
+        .header {
+            padding: 16px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(21, 16, 38, 0.6);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(168, 85, 247, 0.1);
+        }
+        .header-tabs {
+            display: flex;
+            gap: 20px;
+            font-size: 16px;
+            font-weight: 600;
+        }
+        .header-tabs span {
+            color: var(--text-muted);
+            cursor: pointer;
+            position: relative;
+        }
+        .header-tabs span.active {
+            color: var(--text-main);
+        }
+        .header-tabs span.active::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            right: 50%;
+            transform: translateX(50%);
+            width: 20px;
+            height: 3px;
+            background: var(--purple-neon);
+            border-radius: 2px;
+            box-shadow: 0 0 8px var(--purple-neon);
+        }
+        .header-icons {
+            display: flex;
+            gap: 15px;
+            color: var(--text-main);
+            font-size: 18px;
+        }
+        .content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            padding-bottom: 80px;
+        }
+        .banner {
+            background: linear-gradient(135deg, #2D1B4E 0%, #1A102F 100%);
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            border-radius: 16px;
+            padding: 16px;
+            text-align: center;
+            box-shadow: 0 4px 20px var(--purple-glow);
+        }
+        .banner h2 {
+            font-size: 18px;
+            color: #F3E8FF;
+            margin-bottom: 5px;
+        }
+        .banner p {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+        .rooms-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        .room-card {
+            background: var(--bg-card);
+            border-radius: 14px;
+            overflow: hidden;
+            border: 1px solid rgba(168, 85, 247, 0.15);
+            position: relative;
+            aspect-ratio: 3/4;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 10px;
+            background-size: cover;
+            background-position: center;
+        }
+        .room-card::before {
+            content: '';
+            position: absolute;
+            top: 0; right: 0; bottom: 0; left: 0;
+            background: linear-gradient(180deg, transparent 40%, rgba(11, 8, 19, 0.9) 100%);
+        }
+        .room-info {
+            position: relative;
+            z-index: 2;
+        }
+        .room-title {
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .room-tag {
+            display: inline-block;
+            background: rgba(168, 85, 247, 0.3);
+            color: #E9D5FF;
+            font-size: 10px;
+            padding: 2px 8px;
+            border-radius: 20px;
+            backdrop-filter: blur(4px);
+        }
+        .nav-bar {
+            position: absolute;
+            bottom: 0; right: 0; left: 0;
+            height: 70px;
+            background: rgba(18, 11, 34, 0.95);
+            backdrop-filter: blur(15px);
+            border-top: 1px solid rgba(168, 85, 247, 0.2);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 10;
+        }
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            color: var(--text-muted);
+            font-size: 11px;
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+        .nav-item.active {
+            color: var(--purple-neon);
+            text-shadow: 0 0 10px var(--purple-glow);
+        }
+        .nav-item svg {
+            width: 22px;
+            height: 22px;
+            fill: currentColor;
+        }
+        .nav-center-btn {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--purple-neon), var(--pink-accent));
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            box-shadow: 0 0 15px var(--purple-glow);
+            margin-bottom: 15px;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <div class="header">
+        <div class="header-tabs">
+            <span class="active">رائج</span>
+            <span>موصى به</span>
+        </div>
+        <div class="header-icons">
+            🔍 🎤
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="banner">
+            <h2>✨ أهلاً بك في ليالي لايف</h2>
+            <p>انضم لأروع السهرات والرومات الصوتية والشات المباشر</p>
+        </div>
+
+        <div class="rooms-grid">
+            <div class="room-card" style="background-image: url('https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&auto=format&fit=crop&q=60')">
+                <div class="room-info">
+                    <div class="room-title">سهرة رايقين 🎵</div>
+                    <span class="room-tag">🎙️ روم صوتي</span>
+                </div>
+            </div>
+            <div class="room-card" style="background-image: url('https://images.unsplash.com/photo-1517841905240-472988babdf9?w=500&auto=format&fit=crop&q=60')">
+                <div class="room-info">
+                    <div class="room-title">مجلس الأصدقاء VIP</div>
+                    <span class="room-tag">💬 شات مباشر</span>
+                </div>
+            </div>
+            <div class="room-card" style="background-image: url('https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=500&auto=format&fit=crop&q=60')">
+                <div class="room-info">
+                    <div class="room-title">سوالف ليالي 👑</div>
+                    <span class="room-tag">🎙️ روم صوتي</span>
+                </div>
+            </div>
+            <div class="room-card" style="background-image: url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&auto=format&fit=crop&q=60')">
+                <div class="room-info">
+                    <div class="room-title">تحدي النجوم</div>
+                    <span class="room-tag">⭐ فعاليات</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="nav-bar">
+        <button class="nav-item active">
+            <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+            الرئيسية
+        </button>
+        <button class="nav-item">
+            <svg viewBox="0 0 24 24"><path d="M18 10.48V6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-4.48l4 3.98v-11l-4 3.98z"/></svg>
+            فيديو
+        </button>
+        <button class="nav-center-btn">
+            🎙️
+        </button>
+        <button class="nav-item">
+            <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 9h12v2H6V9zm8 5H6v-2h8v2zm4-6H6V6h12v2z"/></svg>
+            الرسائل
+        </button>
+        <button class="nav-item">
+            <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+            حسابي
+        </button>
+    </div>
+</div>
+
+</body>
+</html>
