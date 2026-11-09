@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ليالي لايف - البث والدردشة المباشرة</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background: #0b0813; color: #ffffff; min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 15px; }
+        header { text-align: center; margin: 20px 0; }
+        header h1 { font-size: 2rem; color: #ec4899; text-shadow: 0 0 10px rgba(236, 72, 153, 0.5); }
+        header p { color: #9ca3af; font-size: 0.95rem; margin-top: 5px; }
+        
+        .main-container { width: 100%; max-width: 800px; display: flex; flex-direction: column; gap: 20px; }
+        
+        /* قسم شاشة البث */
+        .video-box { width: 100%; height: 300px; background: #151026; border: 1px solid #a855f7; border-radius: 16px; display: flex; flex-direction: column; justify-content: center; align-items: center; box-shadow: 0 0 20px rgba(168, 85, 247, 0.2); position: relative; overflow: hidden; }
+        .live-tag { position: absolute; top: 12px; right: 12px; background: #ef4444; color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+        
+        /* قسم الدردشة الحية */
+        .chat-box { width: 100%; background: #151026; border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 15px; display: flex; flex-direction: column; height: 350px; }
+        .chat-header { font-weight: bold; font-size: 1.1rem; color: #a855f7; margin-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.1); pb: 8px; }
+        .chat-messages { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; padding-left: 5px; margin-bottom: 10px; }
+        .msg { background: rgba(255, 255, 255, 0.05); padding: 8px 12px; border-radius: 10px; font-size: 0.9rem; word-break: break-word; }
+        .msg span { font-weight: bold; color: #ec4899; margin-left: 5px; }
+        
+        .chat-input { display: flex; gap: 8px; }
+        .chat-input input { flex: 1; background: #0b0813; border: 1px solid #a855f7; border-radius: 8px; padding: 10px; color: white; outline: none; }
+        .chat-input button { background: #ec4899; color: white; border: none; padding: 10px 18px; border-radius: 8px; font-weight: bold; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>🌙 ليالي لايف</h1>
+        <p>الدردشة المباشرة والتفاعل الحي للزوار</p>
+    </header>
+
+    <div class="main-container">
+        <!-- شاشة البث -->
+        <div class="video-box">
+            <div class="live-tag">مباشر LIVE</div>
+            <h3 style="color: #9ca3af;">📡 البث المباشر جاهز للانطلاق</h3>
+            <p style="font-size: 0.85rem; color: #6b7280; margin-top: 5px;">أهلاً بجميع زوار منصة ليالي لايف</p>
+        </div>
+
+        <!-- غرفة الدردشة المباشرة -->
+        <div class="chat-box">
+            <div class="chat-header">💬 الدردشة المباشرة</div>
+            <div class="chat-messages" id="chat">
+                <div class="msg"><span>النظام:</span> أهلاً بكم في شات ليالي لايف! اكتب أيمك أو رسالتك للزوار.</div>
+            </div>
+            <div class="chat-input">
+                <input type="text" id="userInput" placeholder="اكتب رسالتك هنا...">
+                <button onclick="sendMsg()">إرسال</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function sendMsg() {
+            var input = document.getElementById('userInput');
+            var text = input.value.trim();
+            if(text !== "") {
+                var chat = document.getElementById('chat');
+                var newMsg = document.createElement('div');
+                newMsg.className = 'msg';
+                newMsg.innerHTML = '<span>زائر:</span> ' + text;
+                chat.appendChild(newMsg);
+                chat.scrollTop = chat.scrollHeight;
+                input.value = "";
+            }
+        }
+
+        // إمكانية الإرسال بضغط Enter
+        document.getElementById("userInput").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                sendMsg();
+            }
+        });
+    </script>
+
+</body>
+</html>
